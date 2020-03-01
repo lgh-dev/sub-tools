@@ -1,0 +1,20 @@
+sub-tools:
+  var:
+    workspace: /Users/lgh/Documents/test
+    project: iot
+    server: device
+    basepackage: com.cas.iot.device # 基本包路径。
+  template:
+    codeType: java-single
+    javaPath: src/main/java
+    rootPath: com/cas/iot/device
+    code:
+      model: ## 基于写好的model生成repository、application、api
+        inPath: /Users/lgh/Documents/iot-parent/src/main/java/model
+        outPath: ${sub-tools.var.workspace}/${sub-tools.var.project}/${sub-tools.var.server}/domain/${sub-tools.template.javaPath}/${sub-tools.template.rootPath}/domain/model
+      repository:
+        outPath: ${sub-tools.var.workspace}/${sub-tools.var.project}/${sub-tools.var.server}/domain/${sub-tools.template.javaPath}/${sub-tools.template.rootPath}/domain/repository
+      application: ## 输出service、controller
+        outPath: ${sub-tools.var.workspace}/${sub-tools.var.project}/${sub-tools.var.server}/application/${sub-tools.template.javaPath}/${sub-tools.template.rootPath}/application
+      api: ## 输出api
+        outPath: ${sub-tools.var.workspace}/${sub-tools.var.project}/${sub-tools.var.server}/api/${sub-tools.template.javaPath}/${sub-tools.template.rootPath}/api
