@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"os"
 )
+
 // 递归创建不存在的目录。
-func MkdirIfNotExists(path string)  {
+func MkdirIfNotExists(path string) {
 	exist, err := PathExists(path)
 	if err != nil {
 		fmt.Printf("get dir error![%v]\n", err)

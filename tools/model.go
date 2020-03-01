@@ -12,21 +12,34 @@ import (
 * @date 2020/2/26
 * @version V1.0
  */
-type Model struct {
+type Models struct {
 	ModelNames []string // 模型名称
+	ModelData  []string
 }
 
-func (model *Model) GetModels(path string) []string {
-	models, err := ioutil.ReadDir(path)
+func (models *Models) GetModels(path string) ([]string, []string) {
+	modelPath, err := ioutil.ReadDir(path)
 	if err != nil {
-		panic("model path err")
+		panic("model path err:" + err.Error())
 	}
-	model.ModelNames=make([]string, len(models))
-	for i, info := range models {
-		if !info.IsDir(){
-			model.ModelNames[i] = strings.Split(info.Name(),".")[0]
+	models.ModelNames = make([]string, len(modelPath))
+	models.ModelData = make([]string, len(modelPath))
+	for i, info := range modelPath {
+		if !info.IsDir() {
+
+			if strings.Split(info.Name(), ".")[1] != "java" {
+				continue
+			}
+
+			models.ModelNames[i] = strings.Split(info.Name(), ".")[0]
+			dataByte, err := ioutil.ReadFile(path + "/" + info.Name())
+			if err != nil {
+				fmt.Errorf("Read model file %s err :", info.Name())
+				panic(err.Error())
+			}
+			models.ModelData[i] = string(dataByte)
 		}
 	}
-	fmt.Println(model.ModelNames)
-	return model.ModelNames
+	fmt.Println(models.ModelNames)
+	return models.ModelNames, models.ModelData
 }
